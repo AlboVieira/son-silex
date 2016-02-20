@@ -9,6 +9,7 @@
 namespace Code\Sistema\Service;
 
 use Code\Sistema\Entity\Cliente;
+use Code\Sistema\Entity\Interfaces\EntityInterface;
 use Code\Sistema\Entity\Produto;
 use Code\Sistema\Mapper\ClienteMapper;
 use Code\Sistema\Mapper\ProdutoMapper;
@@ -25,6 +26,7 @@ class ProdutoService extends AbstractService
         $produtoEntity->setNome($produto['nome']);
         $produtoEntity->setDescricao($produto['descricao']);
         $produtoEntity->setValor($produto['valor']);
+
 
         /** @var ProdutoMapper $mapper */
         $mapper = $this->mapper;
@@ -53,19 +55,20 @@ class ProdutoService extends AbstractService
         return $result;
     }
 
-    public function findById($id){
-        /** @var ProdutoMapper $mapper */
-        $mapper = $this->mapper;
-        $result = $mapper->findBy(['id' => $id]);
+    public function excluir($id){
 
-        return $result;
-    }
+        $checkProduto = $this->findById($id);
 
-    public function findAll(){
-        /** @var ProdutoMapper $mapper */
-        $mapper = $this->mapper;
-        $result = $mapper->findAll();
+        if($checkProduto){
+            /** @var ProdutoMapper $mapper */
+            $mapper = $this->mapper;
+            $result = $mapper->excluir($id);
+            return $result;
+        }
+        else{
+            return array('success' => false);
+        }
 
-        return $result;
+
     }
 }

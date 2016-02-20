@@ -14,8 +14,12 @@ use Code\Sistema\Mapper\AbstractMapper;
 
 class AbstractService
 {
+    /** @var EntityInterface  */
     protected $entity;
+
+    /** @var AbstractMapper  */
     protected $mapper;
+
     /**
      * ClienteService constructor.
      * @param $cliente
@@ -24,5 +28,19 @@ class AbstractService
     {
         $this->entity = $entity;
         $this->mapper = $mapper;
+    }
+
+    public function findById($id, $fieldId = 'id'){
+        $mapper = $this->mapper;
+        $result = $mapper->findBy([$fieldId => $id]);
+
+        return $result;
+    }
+
+    public function findAll(){
+        $mapper = $this->mapper;
+        $result = $mapper->findAll();
+
+        return $result;
     }
 }

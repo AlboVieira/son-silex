@@ -9,8 +9,6 @@ use Code\Sistema\Service\ProdutoService;
 use Code\Sistema\Entity\Produto;
 use Code\Sistema\Mapper\ProdutoMapper;
 
-//Estava aparecendo o proximo , possivelmente minha sessao tinha expirado e consegui visualizar o ex02
-// Nesse commit esta os dois o primeiro e o segundo.
 
 /** Inicio Rotas Cliente */
 $app['clienteService'] = function(){
@@ -77,6 +75,11 @@ $app->post('/produtos/{id}', function(Request $request,$id) use($app,$produtoSer
     $dados['valor'] = $request->get('valor');
     $result = $produtoService->update($dados);
 
+    return $app->json($result);
+});
+
+$app->delete('/produtos/{id}', function($id) use ($app,$produtoService) {
+    $result = $produtoService->excluir($id);
     return $app->json($result);
 });
 

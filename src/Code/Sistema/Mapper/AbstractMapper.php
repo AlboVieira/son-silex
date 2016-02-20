@@ -80,6 +80,11 @@ class AbstractMapper
         $this->sql = $sql;
     }
 
+    public function delete($id){
+        $this->sql = "DELETE FROM {$this->table} WHERE id={$id}";
+        return $this->flush();
+    }
+
     public function flush(){
         /** @var \PDOStatement $stmt */
         $stmt = $this->conn->prepare($this->sql);

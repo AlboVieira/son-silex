@@ -48,7 +48,21 @@ class ProdutoMapper extends AbstractMapper
         }
     }
 
+    public function excluir($id){
+        $result = $this->delete($id);
+        if($result){
+            return [
+                'success' => true
+            ];
+        }else{
+            return [
+                'success' => false
+            ];
+        }
+    }
+
     public static function getFields($withId = true){
-        return $withId == true ? ['id','nome','descricao','valor'] : ['nome','descricao','valor'];
+        return $withId == true ? ['id','nome','descricao
+        ','valor'] : ['nome','descricao','valor'];
     }
 }
