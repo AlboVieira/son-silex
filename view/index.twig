@@ -1,0 +1,43 @@
+{% extends 'layout.twig' %}
+
+{% block conteudo %}
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="produto">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Descricao</th>
+                <th>Valor</th>
+                <th>Acoes</th>
+            </tr>
+            </thead>
+
+            {% for product in products %}
+                <tr >
+                    <td>
+                        {{ product.id }}
+                    </td>
+                    <td>
+                        {{ product.name}}
+                    </td>
+                    <td>
+                        {{ product.description}}
+                    </td>
+                    <td>
+                        {{ product.price }}
+                    </td>
+                    <td>
+                        <button class="btn-editar" data-id="{{ product.id }}">Editar</button>
+                        <button class="btn-excluir" data-id="{{ product.id }}">Excluir</button>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+
+    </div>
+
+{% endblock %}

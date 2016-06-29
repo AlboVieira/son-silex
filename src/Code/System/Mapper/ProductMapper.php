@@ -6,17 +6,17 @@
  * Time: 17:17
  */
 
-namespace Code\Sistema\Mapper;
-use Code\Sistema\Entity\Produto;
+namespace Code\System\Mapper;
+use Code\System\Entity\Product;
 
-class ProdutoMapper extends AbstractMapper
+class ProductMapper extends AbstractMapper
 {
 
-    protected $table = 'produto';
+    protected $table = 'product';
 
-    public function insert(Produto $produto){
+    public function insert(Product $product){
 
-        $values = ["'{$produto->getId()}'",  "'{$produto->getNome()}'", "'{$produto->getDescricao()}'",$produto->getValor()];
+        $values = ["'{$product->getId()}'",  "'{$product->getName()}'", "'{$product->getDescription()}'",$product->getPrice()];
         $this->persist(self::getFields(),$values);
         $result = $this->flush();
         if($result){
@@ -30,12 +30,12 @@ class ProdutoMapper extends AbstractMapper
         }
     }
 
-    public function update(Produto $produto){
+    public function update(Product $product){
 
-        $values = ["'{$produto->getNome()}'", "'{$produto->getDescricao()}'",$produto->getValor()];
+        $values = ["'{$product->getName()}'", "'{$product->getDescription()}'",$product->getPrice()];
         $fieldsValue = array_combine(self::getFields(false),$values);
 
-        $this->merge($fieldsValue,['id' => $produto->getId()]);
+        $this->merge($fieldsValue,['id' => $product->getId()]);
         $result = $this->flush();
         if($result){
             return [
@@ -48,7 +48,7 @@ class ProdutoMapper extends AbstractMapper
         }
     }
 
-    public function excluir($id){
+    public function deleteProduct($id){
         $result = $this->delete($id);
         if($result){
             return [
@@ -62,7 +62,6 @@ class ProdutoMapper extends AbstractMapper
     }
 
     public static function getFields($withId = true){
-        return $withId == true ? ['id','nome','descricao
-        ','valor'] : ['nome','descricao','valor'];
+        return $withId == true ? ['id','name','description','price'] : ['name','description','price'];
     }
 }

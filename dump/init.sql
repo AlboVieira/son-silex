@@ -1,7 +1,7 @@
-CREATE TABLE `produto` (
+CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) DEFAULT NULL,
-  `descricao` varchar(145) DEFAULT NULL,
-  `valor` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(145) DEFAULT NULL,
+  `price` FLOAT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

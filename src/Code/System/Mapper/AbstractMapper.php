@@ -6,11 +6,11 @@
  * Time: 19:33
  */
 
-namespace Code\Sistema\Mapper;
+namespace Code\System\Mapper;
 
 
-use Code\Sistema\Entity\Cliente;
-use Code\Sistema\Entity\Interfaces\EntityInterface;
+use Code\System\Entity\Customer;
+use Code\System\Entity\Interfaces\EntityInterface;
 use PDO;
 
 class AbstractMapper
@@ -21,20 +21,17 @@ class AbstractMapper
     protected $sql;
     protected $table;
 
-    /**
-     * AbstractMapper constructor.
-     * @param $conn
-     */
+
     public function __construct()
     {
         if(!$this->conn){
-            $db = "son-silex";
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
+            $db = "homestead";
+            $servername = "172.17.0.2";
+            $username = "homestead";
+            $password = "secret";
 
             try {
-                $conn = new PDO("mysql:host=$servername;dbname=$db", $username, $password);
+                $conn = new PDO("mysql:host=$servername;dbname=$db;port=3306", $username, $password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->conn = $conn;
             }
@@ -58,8 +55,8 @@ class AbstractMapper
 
     public function merge(array $fieldValues,array $id){
 
-        $chaveId = array_keys($id);
-        $chaveId = reset($chaveId);
+        $keys = array_keys($id);
+        $keyId = reset($keys);
         $valueId = reset($id);
 
         $values = '';
@@ -72,10 +69,10 @@ class AbstractMapper
             ++$count;
             $values .= " {$key} = $item ,";
         };
-        $sql = "UPDATE produto
+        $sql = "UPDATE {$this->table}
                     SET
                     {$values}
-                    WHERE {$chaveId} = {$valueId};
+                    WHERE {$keyId} = {$valueId};
                     ";
         $this->sql = $sql;
     }
@@ -106,11 +103,11 @@ class AbstractMapper
     public function addWhere(array $fields){
         $where = 'WHERE ';
         $isFirst = true;
-        foreach($fields as $chave=>$valor){
+        foreach($fields as $chave=>$value){
             if(!$isFirst)
                 $where .= ' AND ';
 
-            $where .= " {$chave} = '{$valor}' ";
+            $where .= " {$chave} = '{$value}' ";
             $isFirst = false;
         }
         return $where;

@@ -2,25 +2,24 @@
 require_once '../bootstrap.php';
 
 use Symfony\Component\HttpFoundation\Request;
-use Code\Sistema\Entity\Cliente;
-use Code\Sistema\Mapper\ClienteMapper;
-use Code\Sistema\Service\ClienteService;
-use Code\Sistema\Service\ProdutoService;
-use Code\Sistema\Entity\Produto;
-use Code\Sistema\Mapper\ProdutoMapper;
+use Code\System\Entity\Customer;
+use Code\System\Mapper\ProductMapper;
+use Code\System\Service\ClientService;
+use Code\System\Service\ProductService;
+use Code\System\Entity\Product;
 
 
 /** Inicio Rotas Cliente */
-$app['clienteService'] = function(){
-    return new ClienteService(
-        new Cliente(),
+/*$app['clienteService'] = function(){
+    return new ClientService(
+        new Customer(),
         new ClienteMapper()
     );
 };
-/** @var ClienteService $clienteService */
 $clienteService = $app['clienteService'];
 
 $app->get('/clientes', function() use ($app) {
+
     $clientes = [
         1 =>
             [ 'nome' => 'Albo Vieira',
@@ -34,56 +33,73 @@ $app->get('/clientes', function() use ($app) {
             ]
     ];
     return $app->json($clientes);
-});
+});*/
 
 /** Fim Rotas Cliente */
 
 /** Inicio Rotas Produto */
 $app['produtoService'] = function(){
-    return new ProdutoService(
-        new Produto(),
-        new ProdutoMapper()
+    return new ProductService(
+        new Product(),
+        new ProductMapper()
     );
 };
-/** @var ProdutoService $produtoService */
-$produtoService = $app['produtoService'];
+/** @var ProductService $productService */
+$productService = $app['produtoService'];
 
-$app->get('/produtos', function() use ($app,$produtoService) {
-    $result = $produtoService->findAll();
+$app->get('/api/produtos', function() use ($app,$productService) {
+    $result = $productService->findAll();
     return $app->json($result);
 });
 
-$app->get('/produtos/{id}', function($id) use ($app,$produtoService) {
-    $result = $produtoService->findById($id);
+$app->get('/api/produtos/{id}', function($id) use ($app,$productService) {
+    $result = $productService->findById($id);
     return $app->json($result);
 });
 
-$app->post('/produtos', function(Request $request) use($app,$produtoService){
-    $dados['nome'] = $request->get('nome');
-    $dados['descricao'] = $request->get('descricao');
-    $dados['valor'] = $request->get('valor');
-    $result = $produtoService->insert($dados);
+$app->post('/api/produtos', function(Request $request) use($app,$productService){
+
+    $dados['name'] = $request->get('name');
+    $dados['description'] = $request->get('description');
+    $dados['price'] = $request->get('price');
+    $result = $productService->insert($dados);
 
     return $app->json($result);
 });
 
-$app->post('/produtos/{id}', function(Request $request,$id) use($app,$produtoService){
+$app->post('/api/produtos/{id}', function(Request $request,$id) use($app,$productService){
 
     $dados['id'] = $id;
-    $dados['nome'] = $request->get('nome');
-    $dados['descricao'] = $request->get('descricao');
-    $dados['valor'] = $request->get('valor');
-    $result = $produtoService->update($dados);
+    $dados['name'] = $request->get('name');
+    $dados['description'] = $request->get('description');
+    $dados['price'] = $request->get('price');
+    $result = $productService->update($dados);
 
     return $app->json($result);
 });
 
-$app->delete('/produtos/{id}', function($id) use ($app,$produtoService) {
-    $result = $produtoService->excluir($id);
+$app->delete('/api/produtos/{id}', function($id) use ($app,$productService) {
+    $result = $productService->delete($id);
     return $app->json($result);
 });
 
 /** Fim Rotas Produto */
 
+
+/** View Produto **/
+
+$app->get("/", function() use($app,$productService){
+
+    $products = $productService->findAllAsArray();
+    return $app['twig']->render('index.twig',['products' => $products]);
+});
+
+$app->get("/produtos/incluir", function() use($app,$productService){
+
+    return $app['twig']->render('incluir.twig');
+
+})->bind('incluir-produto');
+
+/** Fim View Produto */
 
 $app->run();

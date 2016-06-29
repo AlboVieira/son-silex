@@ -6,30 +6,30 @@
  * Time: 17:15
  */
 
-namespace Code\Sistema\Entity;
+namespace Code\System\Entity;
 
 
-use Code\Sistema\Entity\Interfaces\EntityInterface;
+use Code\System\Entity\Interfaces\EntityInterface;
 
-class Cliente implements EntityInterface
+class Customer implements EntityInterface
 {
-    private $nome;
+    private $name;
     private $email;
 
     /**
      * @return mixed
      */
-    public function getNome()
+    public function getName()
     {
-        return $this->nome;
+        return $this->name;
     }
 
     /**
-     * @param mixed $nome
+     * @param mixed $name
      */
-    public function setNome($nome)
+    public function setName($name)
     {
-        $this->nome = $nome;
+        $this->name = $name;
     }
 
     /**

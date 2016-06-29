@@ -6,7 +6,7 @@
  * Date: 14/02/2016
  * Time: 19:43
  */
-namespace Code\Sistema\Entity\Interfaces;
+namespace Code\System\Entity\Interfaces;
 
 interface EntityInterface
 {

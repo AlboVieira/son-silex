@@ -6,11 +6,11 @@
  * Time: 19:32
  */
 
-namespace Code\Sistema\Service;
+namespace Code\System\Service;
 
 
-use Code\Sistema\Entity\Interfaces\EntityInterface;
-use Code\Sistema\Mapper\AbstractMapper;
+use Code\System\Entity\Interfaces\EntityInterface;
+use Code\System\Mapper\AbstractMapper;
 
 class AbstractService
 {
@@ -20,10 +20,7 @@ class AbstractService
     /** @var AbstractMapper  */
     protected $mapper;
 
-    /**
-     * ClienteService constructor.
-     * @param $cliente
-     */
+
     public function __construct(EntityInterface $entity, AbstractMapper $mapper)
     {
         $this->entity = $entity;
@@ -31,16 +28,14 @@ class AbstractService
     }
 
     public function findById($id, $fieldId = 'id'){
-        $mapper = $this->mapper;
-        $result = $mapper->findBy([$fieldId => $id]);
-
-        return $result;
+        return $this->mapper->findBy([$fieldId => $id]);
     }
 
     public function findAll(){
-        $mapper = $this->mapper;
-        $result = $mapper->findAll();
+        return $this->mapper->findAll();
+    }
 
-        return $result;
+    public function findAllAsArray(){
+        return (array) $this->mapper->findAll();
     }
 }

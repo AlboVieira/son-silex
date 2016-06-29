@@ -7,13 +7,13 @@
  */
 
 namespace Code\Sistema\Mapper;
-use Code\Sistema\Entity\Cliente;
+use Code\System\Entity\Customer;
 
 class ClienteMapper extends AbstractMapper
 {
 
-    public function insert(Cliente $cliente){
+    public function insert(Customer $cliente){
         return
-            [ 'nome' => $cliente->getNome(), 'email' => $cliente->getEmail()];
+            [ 'nome' => $cliente->getName(), 'email' => $cliente->getEmail()];
     }
 }
