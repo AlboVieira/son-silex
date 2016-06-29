@@ -1,9 +1,12 @@
 # son-silex
 Api Silex
 
-Executar 
-´´´sh
+
+```sh
+
 docker-compose up
-´´´
+
+```
+
 
 Executar script na pasta dump.
