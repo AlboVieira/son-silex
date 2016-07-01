@@ -8,49 +8,79 @@
 
 namespace Code\System\Service;
 
-use Code\System\Entity\Customer;
-use Code\System\Entity\Interfaces\EntityInterface;
-use Code\System\Entity\Product;
-use Code\System\Mapper\ProductMapper;
-
 class ProductService extends AbstractService
 {
 
     public function insert(array $product){
 
+        try{
+            $this->validateData($product);
 
-        $this->entity->setName($product['name']);
-        $this->entity->setDescription($product['description']);
-        $this->entity->setPrice($product['price']);
+            $this->entity->setName($product['name']);
+            $this->entity->setDescription($product['description']);
+            $this->entity->setPrice($product['price']);
 
-        return $this->mapper->insert($this->entity);
+            return $this->mapper->insert($this->entity);
+        }
+        catch(\Exception $e){
+            return ['success' => false,'message' => $e->getMessage()];
+        }
+
     }
 
     public function update(array $product){
 
-        $checkEntity = $this->findById($product['id']);
-        if($checkEntity){
-            $this->entity->setId($product['id']);
-            $this->entity->setName($product['name']);
-            $this->entity->setDescription($product['description']);
-            $this->entity->setPrice($product['price']);
-        }else{
-            return array('success' => false);
+        try{
+            $this->validateData($product);
+
+            $checkEntity = $this->findById($product['id']);
+            if($checkEntity){
+                $this->entity->setId($product['id']);
+                $this->entity->setName($product['name']);
+                $this->entity->setDescription($product['description']);
+                $this->entity->setPrice($product['price']);
+            }else{
+                return array('success' => false);
+            }
+
+            return $this->mapper->update($this->entity);
+        }
+        catch(\Exception $e){
+            return ['success' => false,'message' => $e->getMessage()];
         }
 
-        return $this->mapper->update($this->entity);
     }
 
     public function delete($id){
 
-        $checkProduct = $this->findById($id);
-        if($checkProduct){
-            $deleted = $this->mapper->delete($id);
-            return array('success' => $deleted);
+        try{
+            $checkProduct = $this->findById($id);
+            if($checkProduct){
+                $deleted = $this->mapper->delete($id);
+                return array('success' => $deleted);
+            }
+            else{
+                return array('success' => false);
+            }
         }
-        else{
-            return array('success' => false);
+        catch(\Exception $e){
+            return ['success' => false,'message' => $e->getMessage()];
         }
+
+    }
+
+    public function validateData($data){
+
+        if(empty($data['name']) || empty($data['description']) || empty($data['price'])){
+            throw new \Exception('Data invalid!');
+        }
+
+        if(!is_numeric($data['price'])){
+            throw new \Exception('Price must be numeric!');
+        }
+
+        return true;
+
     }
 
 }
